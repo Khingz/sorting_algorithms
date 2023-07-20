@@ -3,6 +3,7 @@
 
 /* Header files */
 #include <stddef.h>
+#include <stdbool.h>
 
 /* List struct */
 /**
