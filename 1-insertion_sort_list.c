@@ -1,8 +1,5 @@
 #include "sort.h"
 
-
-unsigned int list_len(listint_t **list);
-
 /**
  * insertion_sort_list - Sort a doubly linked list
  * @list: list to sort
@@ -10,7 +7,7 @@ unsigned int list_len(listint_t **list);
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current, *prev, *temp;
+	listint_t *current, *prev, *temp, *next;
 
 	if (!list || !(*list) || !(*list)->next)
 		return;
@@ -21,7 +18,22 @@ void insertion_sort_list(listint_t **list)
 		temp = current;
 		while(temp && temp->n < temp->prev->n)
 		{
-			
+			prev = temp->prev;
+			next = temp->next;
+
+			temp->next = prev;
+			temp->prev = prev->prev;
+			prev->next = next;
+			if (temp->prev)
+				 temp->prev->next = temp;
+			else
+				(*list) = temp;
+
+			if (next)
+				next->prev = prev;
+
+			temp = prev;
+			print_list(*list);
 
 		}
 		current = current->next;
