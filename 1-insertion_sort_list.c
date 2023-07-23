@@ -4,38 +4,33 @@
  * insertion_sort_list - Sort a doubly linked list
  * @list: list to sort
  */
-
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current, *prev, *temp, *next;
+	listint_t *ptr, *prev_node;
 
-	if (!list || !(*list) || !(*list)->next)
+	if (!list)
 		return;
 
-	current = (*list)->next;
-	while(current)
+	ptr = (*list)->next;
+
+	while (ptr)
 	{
-		temp = current;
-		while(temp && temp->n < temp->prev->n)
+		prev_node = ptr->prev;
+		while (prev_node && prev_node->n > ptr->n)
 		{
-			prev = temp->prev;
-			next = temp->next;
-
-			temp->next = prev;
-			temp->prev = prev->prev;
-			prev->next = next;
-			if (temp->prev)
-				 temp->prev->next = temp;
+			prev_node->next = ptr->next;
+			if (ptr->next)
+				ptr->next->prev = prev_node;
+			ptr->prev = prev_node->prev;
+			if (prev_node->prev)
+				prev_node->prev->next = ptr;
 			else
-				(*list) = temp;
-
-			if (next)
-				next->prev = prev;
-
-			temp = prev;
+				*list = ptr;
+			prev_node->prev = ptr;
+			ptr->next = prev_node;
+			prev_node = ptr->prev;
 			print_list(*list);
-
 		}
-		current = current->next;
+		ptr = ptr->next;
 	}
 }
